@@ -16,12 +16,13 @@ OBJ = $(addprefix $(BUILD)/, $(addsuffix .o, $(basename $(SRC_C))) )
 
 # location of include files that c and cpp files depend on
 SRC_H  = $(wildcard include/*.h)
+SRC_H  = $(wildcard lib46f/include/*.h)
 
 # additional dependancies
 SRC_A  = makefile
 
 # project header file locations
-INC_F  = include
+INC_F  = include lib46f/include lib46f
 
 # build targets
 all: $(BUILD)/$(PROJECT).bin
