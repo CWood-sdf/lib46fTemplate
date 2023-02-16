@@ -1,2 +1,100 @@
 #include "robot-config.h"
-vex::brain Brain;
+
+// Make a controller and name it Greg
+controller Greg = controller();
+controller Beethoven = controller(partner);
+
+// Front Left Wheel (FL)
+motor FL = motor(PORT1, gearSetting::ratio18_1, true);
+TestDriveMotor(FL);
+// Front Right Wheel (FR)
+motor FR = motor(PORT20, gearSetting::ratio18_1, false);
+TestDriveMotor(FR);
+// Back Left Wheel (BL)
+motor BL = motor(PORT4, gearSetting::ratio18_1, true);
+TestDriveMotor(BL);
+// Back Right Wheel (BR)
+motor BR = motor(PORT5, gearSetting::ratio18_1, false);
+TestDriveMotor(BR);
+
+MotorGroup leftWheels = MotorGroup(BL, FL);
+MotorGroup rightWheels = MotorGroup(BR, FR);
+
+/*************************************
+
+Sensors
+
+*************************************/
+
+Inertial angler = Inertial(PORT16, 358.0, 358.0);
+
+// Positioner init
+Positioner::encoderArr arrX = {TrackingWheel(PORT14, true, 2.77)};
+Positioner::encoderArr arrY = {TrackingWheel(PORT15, true, 2.77)};
+// Make a positioner that measures x and y with smallest omni wheel rad
+Positioner positioner = Positioner(arrX, arrY, angler, {0, 0});
+
+// GPS_Share share = GPS_Share(positioner, GPS);
+
+// Wheel controller
+
+Chassis chassis = Chassis(leftWheels, rightWheels, positioner, 10.5, 36.0 / 60.0, 3.25 / 2.0, gearSetting::ratio18_1);
+
+PathFollowSettings purePursuitSettings = PathFollowSettings();
+PurePursuitController purePursuit = PurePursuitController(
+    PIDF(6.25, 0.1, 2.4325, 200, 6, 1),
+    purePursuitSettings
+        .setBrakeMode(WheelController::exitMode::normal)
+        .setExitDist(2)
+        .setUseDistToGoal(true)
+        .setFollowPathDist(16)
+        .setVirtualPursuitDist(11));
+
+PathFollowSettings ramseteSettings = PathFollowSettings();
+RamseteController ramsete = RamseteController(
+    0.0108, 0.05,
+    ramseteSettings
+        .setBrakeMode(WheelController::exitMode::normal)
+        .setExitDist(2)
+        .setUseDistToGoal(true)
+        .setFollowPathDist(12)
+        .setVirtualPursuitDist(2));
+
+PathFollowSettings pidSettings = PathFollowSettings();
+PidController pidController = PidController(
+    PIDF(9.25, 0.1, 2.4325, 200, 6, 1),
+    PID(0.9, 0, 0.3, 0, 0, 0),
+    pidSettings
+        .setBrakeMode(WheelController::exitMode::normal)
+        .setExitDist(1)
+        .setUseDistToGoal(false)
+        .setFollowPathDist(16)
+        .setTurnAtStart(true)
+        .setVirtualPursuitDist(9)
+        .setMaxTimeIn(200));
+
+PVector reverseAutonPosition(PVector v)
+{
+    return v * -1;
+}
+double reverseAutonAngle(double a)
+{
+    return posNeg180(a + 180);
+}
+WheelController wc = WheelController(
+    &chassis,
+    &ramsete, &purePursuit, &pidController,
+    reverseAutonPosition, reverseAutonAngle,
+    PID(1.5, 0, 4.6, -1, 20, 4),
+    1.0);
+
+/**
+ * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
+ *
+ * This should be called at the start of your int main function.
+ */
+void vexcodeInit(void)
+{
+    leftWheels.setBrakeMode(hold);
+    rightWheels.setBrakeMode(hold);
+}

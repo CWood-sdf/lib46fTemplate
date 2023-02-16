@@ -1,8 +1,10 @@
 #include "vex.h"
 
-Auton leftAuton = "left" + []() {
-
+Auton leftAuton = "left" + []()
+{
+    // Auton code here
 };
-Auton rightAuton = "right" + []() {
-
+Auton rightAuton = "right" + []()
+{
+    // Auton code here
 };
