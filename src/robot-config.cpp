@@ -20,15 +20,21 @@ TestDriveMotor(BR);
 MotorGroup leftWheels = MotorGroup(BL, FL);
 MotorGroup rightWheels = MotorGroup(BR, FR);
 
-/*************************************
-
-Sensors
-
-*************************************/
-
+/****************************
+ *
+ * The numbers there are the values the inertial sensor gives you for a full rotation in the positive and negative directions
+ *      This can be found via the devices screen on the brain
+ *
+ ****************************/
 Inertial angler = Inertial(PORT16, 358.0, 358.0);
 
 // Positioner init
+
+/**********************************
+ *
+ * Initialize tracking wheels, these examples use the rotation sensors, but you can use encoders or motors as well
+ *
+ **********************************/
 Positioner::encoderArr arrX = {TrackingWheel(PORT14, true, 2.77)};
 Positioner::encoderArr arrY = {TrackingWheel(PORT15, true, 2.77)};
 // Make a positioner that measures x and y with smallest omni wheel rad
@@ -38,8 +44,18 @@ Positioner positioner = Positioner(arrX, arrY, angler, {0, 0});
 
 // Wheel controller
 
+/***************************
+ *
+ * Initialize chassis here, this data must be accurate for the numbers to work
+ *
+ ***************************/
 Chassis chassis = Chassis(leftWheels, rightWheels, positioner, 10.5, 36.0 / 60.0, 3.25 / 2.0, gearSetting::ratio18_1);
 
+/**********************
+ *
+ * The constants here are defaulted and work for most cases, but you can change them to fit your needs
+ *
+ **********************/
 PathFollowSettings purePursuitSettings = PathFollowSettings();
 PurePursuitController purePursuit = PurePursuitController(
     PIDF(6.25, 0.1, 2.4325, 200, 6, 1),
@@ -73,6 +89,11 @@ PidController pidController = PidController(
         .setVirtualPursuitDist(9)
         .setMaxTimeIn(200));
 
+/************************
+ *
+ * These reversing functions are set for spinup, they might need to be changed next year
+ *
+ ************************/
 PVector reverseAutonPosition(PVector v)
 {
     return v * -1;
