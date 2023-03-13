@@ -9,11 +9,17 @@ Make a copy of this repository by clicking "Use this template" then "Create a ne
 Then, clone the repo onto your local machine and run these lines from your repos folder (assuming you have git and vscode installed)
 
 git submodule init
+
 git submodule update
+
 cd lib46f
+
 git submodule init
+
 git submodule update
+
 cd..
+
 code .
 
 Then, inside vscode (with the vex extension installed), set the branches for lib46f and Libs inside the git editor to "master" and "main" respectively. 
