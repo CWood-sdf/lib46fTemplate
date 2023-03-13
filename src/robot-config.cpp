@@ -37,12 +37,9 @@ Inertial angler = Inertial(PORT16, 358.0, 358.0);
  **********************************/
 Positioner::encoderArr arrX = {TrackingWheel(PORT14, true, 2.77)};
 Positioner::encoderArr arrY = {TrackingWheel(PORT15, true, 2.77)};
-// Make a positioner that measures x and y with smallest omni wheel rad
+
+// Odometry
 Positioner positioner = Positioner(arrX, arrY, angler, {0, 0});
-
-// GPS_Share share = GPS_Share(positioner, GPS);
-
-// Wheel controller
 
 /***************************
  *
@@ -58,7 +55,7 @@ Chassis chassis = Chassis(leftWheels, rightWheels, positioner, 10.5, 36.0 / 60.0
  **********************/
 PathFollowSettings purePursuitSettings = PathFollowSettings();
 PurePursuitController purePursuit = PurePursuitController(
-    PIDF(6.25, 0.1, 2.4325, 200, 6, 1),
+    PID(6.25, 0.1, 2.4325, 200, 6, 1),
     purePursuitSettings
         .setBrakeMode(WheelController::exitMode::normal)
         .setExitDist(2)
@@ -78,7 +75,7 @@ RamseteController ramsete = RamseteController(
 
 PathFollowSettings pidSettings = PathFollowSettings();
 PidController pidController = PidController(
-    PIDF(9.25, 0.1, 2.4325, 200, 6, 1),
+    PID(9.25, 0.1, 2.4325, 200, 6, 1),
     PID(0.9, 0, 0.3, 0, 0, 0),
     pidSettings
         .setBrakeMode(WheelController::exitMode::normal)
