@@ -149,5 +149,6 @@
     "stop_token": "cpp",
     "thread": "cpp"
   },
-  "cmake.configureOnOpen": false
+  "cmake.configureOnOpen": false,
+  "cmake.sourceDirectory": "${workspaceFolder}/lib46f/include/lvgl"
 }

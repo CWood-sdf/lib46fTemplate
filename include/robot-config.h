@@ -1,5 +1,5 @@
 #include "vex.h"
-
+extern brain Brain;
 // motor groups for the wheels
 extern MotorGroup leftWheels;
 extern MotorGroup rightWheels;
