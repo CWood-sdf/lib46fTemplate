@@ -51,7 +51,6 @@ void drivercontrol()
     int localCount = count;
     count++;
     DriveController dc = DriveController(&chassis, 20);
-    // TODO: intake controls
     while (1)
     {
         // Place driver code in here
@@ -98,7 +97,6 @@ int main()
     // Init has to be in thread, otherwise it won't work with comp switch
     thread initThread = thread([]()
                                {
-        s(100);
         v5_lv_init();
         cout << "<< Lvgl initialized >>" << endl;
         positioner.init();
@@ -107,7 +105,6 @@ int main()
         testDeviceConnection();
         // testDriveConfiguration();
         cout << "<< Motor connection test complete >>" << endl;
-        s(500);
         wc.path
             .setK(1.4)
             .setMaxAcc(200)
@@ -137,7 +134,7 @@ int main()
     // Awesome brain screen control thread
     thread loader = thread([]()
                            { BosFn::runBrainOS(); });
-    // autonomous();
+                           
     Competition.autonomous(autonomous);
     Competition.drivercontrol(drivercontrol);
 

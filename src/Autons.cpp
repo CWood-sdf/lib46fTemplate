@@ -8,3 +8,6 @@ Auton rightAuton = "right" + []()
 {
     // Auton code here
 };
+Auton skillsAuton = "skills" + [](){
+
+};
