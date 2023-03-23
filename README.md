@@ -4,24 +4,4 @@ This repository is a template repository for using lib46f in your program. All t
 
 ## Usage
 
-Make a copy of this repository by clicking "Use this template" then "Create a new repository" on the home page. 
-
-Then, clone the repo onto your local machine and run these lines from your repos folder (assuming you have git and vscode installed)
-
-git submodule init
-
-git submodule update
-
-cd lib46f
-
-git submodule init
-
-git submodule update
-
-cd..
-
-code .
-
-Then, inside vscode (with the vex extension installed), set the branches for lib46f and Libs inside the git editor to "master" and "main" respectively. 
-
-Then, you can build the program and do whatever you want. 
+Download the latest release from the [releases](https://github.com/CWood-sdf/lib46fTemplate/releases) page. If you are on windows, download the lib46fTemplate.zip file, if you are on mac or linux, download the lib46fTemplate.xz or the lib46fTemplate.7z file. 
